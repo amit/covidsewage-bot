@@ -28,15 +28,18 @@ jobs:
           pip install -r requirements.txt
       - name: Install Playwright browser
         run: |
-          shot-scraper install -b firefox
+          shot-scraper install
       - name: Configure Git for commits
         run: |-
           git config user.name "Automated"
           git config user.email "actions@users.noreply.github.com"
       - name: Generate screenshot with shot-scraper
         run: |-
-          shot-scraper https://covid19.sccgov.org/dashboard-wastewater \
-            -s iframe --wait 3000 -b firefox --retina -o /tmp/covid.png
+          shot-scraper https://sd-sequencing.info/wastewater \
+            -s iframe --wait 3000 --retina -o /tmp/covid.png \
+            --javascript 'new Promise(takeShot => \
+            { document.getElementById("_dbcprivate_radioitems_scale-seqs-radios_input_viral").click(); \
+            setTimeout(() => {takeShot()}, 3000);})' -s '.main-svg'
       - name: Tweet the new image
         env:
           TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
