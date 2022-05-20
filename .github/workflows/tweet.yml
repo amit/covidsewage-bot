@@ -36,10 +36,9 @@ jobs:
       - name: Generate screenshot with shot-scraper
         run: |-
           shot-scraper https://sd-sequencing.info/wastewater \
-            -s iframe --wait 3000 --retina -o /tmp/covid.png \
-            --javascript 'new Promise(takeShot => \
-            { document.getElementById("_dbcprivate_radioitems_scale-seqs-radios_input_viral").click(); \
-            setTimeout(() => {takeShot()}, 3000);})' -s '.main-svg'
+            -s iframe --wait 5000 --retina -o /tmp/covid.png \
+            --javascript 'new Promise(takeShot => { document.getElementById("_dbcprivate_radioitems_scale-seqs-radios_input_viral").click(); setTimeout(() => {takeShot()}, 5000);})' \
+             -s '.main-svg'
       - name: Tweet the new image
         env:
           TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
